@@ -1,31 +1,21 @@
 import React from 'react';
+import ReactTwitchEmbedVideo from 'react-twitch-embed-video';
 
-const EMBED_URL = 'https://embed.twitch.tv/embed/v1.js';
 
 class LivePodcast extends React.Component {
 
-  static defaultProps = {
-    targetID: 'twitch-embed',
-    width: '100%',
-    height: '480',
-    channel: 'redacreneighborhoodwatch',
-  }
-
-  componentDidMount() {
-    let embed;
-    const script = document.createElement('script');
-    script.setAttribute('src', EMBED_URL);
-    script.addEventListener('load', () => {
-      embed = new window.Twitch.Embed(this.props.targetID, {...this.props});
-      });
-      document.body.appendChild(script);
-  }
   render() {
 
     return(
       <section>
         <h2>We're Live! Join us!</h2>
-        <div id={this.props.targetID}></div>
+        <ReactTwitchEmbedVideo 
+          autoplay
+          channel='redacreneighborhoodwatch'
+          muted={false}
+          targetClass='twitch-embed'
+          width='100%'
+          max-width='1200' />
       </section>
     )
   }

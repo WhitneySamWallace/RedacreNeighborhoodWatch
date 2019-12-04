@@ -1,0 +1,22 @@
+.archived-podcasts {
+  background-color: whitesmoke;
+  padding: 10px;
+}
+
+h2 {
+  margin: 0;
+  padding: 20px 10px;
+}
+
+.archived-podcasts-links {
+  padding-right: 5px;
+  padding-left: 5px;
+  font-weight: 800;
+  color: red;
+  text-decoration: none;
+}
+
+.archived-podcasts-links:hover {
+  color: white;
+  cursor: pointer;
+}

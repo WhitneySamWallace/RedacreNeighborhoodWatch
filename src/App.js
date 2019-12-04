@@ -4,7 +4,7 @@ import LivePodcast from "./components/LivePodcast";
 import ArchivedPodcasts from "./components/ArchivedPodcasts";
 import SubmitContainer from "./components/SubmitContainer";
 import ArtFeatures from "./components/ArtFeatures";
-import DaimonOTMonth from "./components/DaimonOTMonth";
+import SpecialOTMonth from "./components/SpecialOTMonth";
 import Submit from "./components/Submit";
 import SubFooter from "./components/SubFooter";
 import Footer from "./components/Footer";
@@ -15,8 +15,8 @@ class App extends React.Component {
     isLive: false,
     error: null,
     hasError: false,
-    nextDate: 'August 4th',
-    nextTime: 'time TBD'
+    nextDate: 'November 24',
+    nextTime: '6pm CST'
   };
 
   componentDidMount(){
@@ -26,7 +26,12 @@ class App extends React.Component {
   //Twitch API Fetch to see if twitch channel is live
   handleTwitchFetch = () => {
     fetch(
-      "https://api.twitch.tv/helix/streams?user_id=redacreneighborhoodwatch"
+      "https://api.twitch.tv/helix/streams?user_login=redacreneighborhoodwatch", {
+        method: "GET",
+        headers: {
+          "Client-ID": "0zqbf3ahje4ly66ole0ex8tbrgc6m8"
+        }
+      }
     )
       .then(res => {
         if (res.ok) {
@@ -37,10 +42,14 @@ class App extends React.Component {
         }
       })
       .then(resJson => {
-        console.log('returned the data')
-        this.setState({
-          isLive: resJson.data.type
-        })
+        console.log('returned the data', resJson)
+        console.log('!!resJson.data[0] = ', !!resJson.data[0])
+        if (!!resJson.data[0]) {
+          this.setState({
+            isLive: true
+          })
+        } 
+        
       })
       .catch(error => {
         console.log('returned an error')
@@ -55,11 +64,11 @@ class App extends React.Component {
     return (
       <div className="App">
         <Header />
-        {/* {this.state.isLive === 'live'? <LivePodcast />: ''} */}
+        {this.state.isLive ? <LivePodcast /> : <></>}
         <ArchivedPodcasts nextDate={this.state.nextDate} nextTime={this.state.nextTime}/>
         <SubmitContainer />
         <ArtFeatures />
-        <DaimonOTMonth nextDate={this.state.nextDate} nextTime={this.state.nextTime}/>
+        <SpecialOTMonth nextDate={this.state.nextDate} nextTime={this.state.nextTime}/>
         <Submit />
         <SubFooter />
         <Footer />
